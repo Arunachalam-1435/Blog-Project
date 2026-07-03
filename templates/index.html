@@ -1,7 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Home Page{% endblock %}
 {% block content %}
+{% if request.args.get('msg') %}
+    <p>{{ request.args.get('msg') }}</p>
+{% endif %}
 <h2 id="id1">{{heading}}</h2>
 <a href="{{url_for('post')}}">Create a Post</a>
+{% if all_posts %}
+<h3>All Posts:</h3>
+    {% for post in all_posts %}
+        <li>{{ post.id }}.{{ post.title }}</li>
+        <p>{{ post.body }}</p>
+        <p>{{ post.created_at | local_timezone }}</p>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>No posts available</p>
+{% endif %}
 <!--script src="/js/script.js"></script-->
 {%endblock%}
