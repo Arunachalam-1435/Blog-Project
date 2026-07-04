@@ -45,7 +45,13 @@ def post():
         db.session.delete(row)
         db.session.commit()
         return "Post deleted successfully"
-    return render_template('post.html', heading='Create a Post')
+    return render_template('create_post.html', heading='Create a Post')
+
+@app.route('/post/<int:id>')
+def show_post(id):
+    post_content = db.session.get(Posts, id)
+    if post_content:
+        return render_template('post.html', post_content=post_content)
 
 if __name__ == "__main__":
     app.run()

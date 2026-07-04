@@ -9,9 +9,8 @@
 {% if all_posts %}
 <h3>All Posts:</h3>
     {% for post in all_posts %}
-        <li>{{ post.id }}.{{ post.title }}</li>
-        <p>{{ post.body }}</p>
-        <p>{{ post.created_at | local_timezone }}</p>
+        <li>{{ post.id }}.{{ post.title }} - created_at: {{ post.created_at | local_timezone }}</li>
+        <a href="{{url_for('show_post', id=post.id)}}">read</a>
         <hr>
     {% endfor %}
 {% else %}
