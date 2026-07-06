@@ -1,3 +1,4 @@
+# importing libraries
 from flask import Flask, render_template, request, redirect, url_for
 from sqlalchemy import select
 from flask_migrate import Migrate
@@ -7,12 +8,15 @@ from datetime import timezone
 from zoneinfo import ZoneInfo
 import os, markdown, textwrap
 
-app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
+# initialising necessary components
 load_dotenv('config.env')
+app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
+app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 migrate = Migrate(app, db)
+PASSWORD = os.environ.get('PASSWORD')
 
 # custom filter for timezone conversion
 @app.template_filter('local_timezone')
@@ -60,5 +64,16 @@ def show_post(id):
     if post_content:
         return render_template('post.html', post_content=post_content)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == 'admin' and password == PASSWORD:
+            pass
+        else:
+            return "Failed :("
 if __name__ == "__main__":
     app.run()
