@@ -3,5 +3,6 @@
 {% block content %}
 <h1>{{post_content.title}}</h1>
 <i>created_at: {{post_content.created_at | local_timezone}}</i>
-<p>{{post_content.body}}</p>
+<br>
+<div>{{post_content.body | markdown | safe}}</div>
 {% endblock %}

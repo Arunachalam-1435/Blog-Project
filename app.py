@@ -5,7 +5,7 @@ from models import db, Posts
 from dotenv import load_dotenv
 from datetime import timezone
 from zoneinfo import ZoneInfo
-import os
+import os, markdown, textwrap
 
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
 load_dotenv('config.env')
@@ -24,6 +24,13 @@ def local_timezone(dt, tz_name='Asia/Kolkata'):
     local_dt = dt.astimezone(ZoneInfo(tz_name))
     return local_dt.strftime('%Y-%m-%d %H:%M')
 
+# custom filter for markdown to html conversion
+@app.template_filter('markdown')
+def markdown_to_html(md):
+    md_html = textwrap.dedent(md).strip()
+    md_html = markdown.markdown(md_html)
+    return md_html
+
 @app.route('/')
 def main():
     all_posts = db.session.execute(select(Posts)).scalars().all()
@@ -40,11 +47,11 @@ def post():
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for('main', msg='Post created Successfully'))
-    elif request.method == "DELETE":
-        row = db.session.get(Posts, 1)
-        db.session.delete(row)
-        db.session.commit()
-        return "Post deleted successfully"
+    # elif request.method == "DELETE":
+    #     row = db.session.get(Posts, 1)
+    #     db.session.delete(row)
+    #     db.session.commit()
+    #     return "Post deleted successfully"
     return render_template('create_post.html', heading='Create a Post')
 
 @app.route('/post/<int:id>')
