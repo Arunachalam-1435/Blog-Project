@@ -1,6 +1,8 @@
 # importing libraries
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import check_password_hash
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from sqlalchemy import select
 from flask_migrate import Migrate
 from models import db, Posts
@@ -13,6 +15,7 @@ import os, markdown, textwrap
 load_dotenv('config.env')
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
 app.secret_key = os.environ.get('SECRET_KEY')
+PASSWORD_HASH = os.environ.get('PASSWORD_HASH')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -20,7 +23,11 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = False
 db.init_app(app)
 migrate = Migrate(app, db)
-PASSWORD_HASH = os.environ.get('PASSWORD_HASH')
+limiter = Limiter(
+    key_func=get_remote_address,
+    app=app,
+    default_limits=[]
+)
 
 # custom filter for timezone conversion
 @app.template_filter('local_timezone')
@@ -68,6 +75,7 @@ def show_post(id):
         return redirect(url_for('main', msg="Post doesn't exist"))
 
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit("3 per hour", methods=['POST'], deduct_when=lambda res: res.status_code != 302)
 def login():
     if request.method == 'GET':
         if session.get('logged_in'):
@@ -81,8 +89,7 @@ def login():
             session['logged_in'] = True
             session['username'] = 'Admin'
             return redirect(url_for('post'))
-        else:
-            return redirect(url_for('login'))
+        return redirect(url_for('login')), 401
 
 @app.route('/logout')
 def logout():
