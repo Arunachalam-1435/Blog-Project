@@ -1,5 +1,6 @@
 # importing libraries
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.security import check_password_hash
 from sqlalchemy import select
 from flask_migrate import Migrate
 from models import db, Posts
@@ -14,9 +15,12 @@ app = Flask(__name__, template_folder='templates', static_folder='static', stati
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_SECURE'] = False
 db.init_app(app)
 migrate = Migrate(app, db)
-PASSWORD = os.environ.get('PASSWORD')
+PASSWORD_HASH = os.environ.get('PASSWORD_HASH')
 
 # custom filter for timezone conversion
 @app.template_filter('local_timezone')
@@ -42,8 +46,10 @@ def main():
         all_posts = ""
     return render_template('index.html', heading="Welcome all!", all_posts=all_posts)
 
-@app.route('/post', methods=['GET', 'POST', 'DELETE'])
+@app.route('/post', methods=['GET', 'POST'])
 def post():
+    if not session.get('logged_in'):
+        return redirect(url_for('main'))
     if request.method == "POST":
         topic = request.form.get('topic')
         content = request.form.get('body')
@@ -51,11 +57,6 @@ def post():
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for('main', msg='Post created Successfully'))
-    # elif request.method == "DELETE":
-    #     row = db.session.get(Posts, 1)
-    #     db.session.delete(row)
-    #     db.session.commit()
-    #     return "Post deleted successfully"
     return render_template('create_post.html', heading='Create a Post')
 
 @app.route('/post/<int:id>')
@@ -63,17 +64,30 @@ def show_post(id):
     post_content = db.session.get(Posts, id)
     if post_content:
         return render_template('post.html', post_content=post_content)
+    else:
+        return redirect(url_for('main', msg="Post doesn't exist"))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
+        if session.get('logged_in'):
+            return redirect(url_for('post'))
         return render_template('login.html')
     elif request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        if username == 'admin' and password == PASSWORD:
-            pass
+        if username == 'admin' and check_password_hash(PASSWORD_HASH, password):
+            session.clear()
+            session['logged_in'] = True
+            session['username'] = 'Admin'
+            return redirect(url_for('post'))
         else:
-            return "Failed :("
+            return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('main'))
+
 if __name__ == "__main__":
     app.run()
