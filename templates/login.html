@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Login Page{% endblock %}
 {% block content %}
+{% if error %}
+<p class="error">{{ error }}</p>
+<a href="{{url_for('login')}}">Login Page</a>
+{% else %}
 <form method="post" action="{{url_for('login')}}">
     <label for="username">Username:</label>
     <br>
@@ -12,4 +16,5 @@
     <br><br>
     <input type="submit" value="login">
 </form>
+{% endif %}
 {%endblock%}

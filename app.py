@@ -16,6 +16,8 @@ load_dotenv('config.env')
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
 app.secret_key = os.environ.get('SECRET_KEY')
 PASSWORD_HASH = os.environ.get('PASSWORD_HASH')
+if not app.secret_key or not PASSWORD_HASH:
+    raise RuntimeError("SECRET_KEY and PASSWORD_HASH must be set in config.env")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -49,8 +51,6 @@ def markdown_to_html(md):
 @app.route('/')
 def main():
     all_posts = db.session.execute(select(Posts)).scalars().all()
-    if not all_posts:
-        all_posts = ""
     return render_template('index.html', heading="Welcome all!", all_posts=all_posts)
 
 @app.route('/post', methods=['GET', 'POST'])
@@ -89,9 +89,9 @@ def login():
             session['logged_in'] = True
             session['username'] = 'Admin'
             return redirect(url_for('post'))
-        return redirect(url_for('login')), 401
+        return render_template('login.html', error="Invalid credentials"), 401
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.clear()
     return redirect(url_for('main'))
