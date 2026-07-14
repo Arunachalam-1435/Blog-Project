@@ -5,16 +5,22 @@
 <p class="error">{{ error }}</p>
 <a href="{{url_for('login')}}">Login Page</a>
 {% else %}
-<form method="post" action="{{url_for('login')}}">
-    <label for="username">Username:</label>
-    <br>
-    <input id="username" type="text" name="username" placeholder="username">
-    <br>
-    <label for="password">Password:</label>
-    <br>
-    <input id="password" type="password" name="password" placeholder="password">
-    <br><br>
-    <input type="submit" value="login">
-</form>
+<div class="h-screen flex items-center justify-center">
+    <!--Login Form-->
+    <div class="bg-blue-300 w-80 p-4 rounded-md hover:shadow-2xl transition duration-350">
+        <div class="text-3xl mb-4 text-center">Login</div>
+        <form action="index.html">
+            <div class="mb-4">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="border rounded-md p-2 w-full">
+            </div>
+            <div class="mb-4">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="border rounded-md p-2 w-full">
+            </div>
+            <button class="bg-blue-600 text-white p-2 w-full rounded-md">Login</button>
+        </form>
+    </div>
+</div>
 {% endif %}
 {%endblock%}
