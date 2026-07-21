@@ -4,5 +4,7 @@
 <h1>{{post_content.title}}</h1>
 <i>created_at: {{post_content.created_at | local_timezone}}</i>
 <br>
-<div>{{post_content.body | markdown | safe}}</div>
+<article class="prose mx-auto max-w-2xl p-8">
+    {{post_content.body | markdown | safe}}
+</article>
 {% endblock %}
