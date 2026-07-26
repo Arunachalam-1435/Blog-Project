@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
 @theme {
     /*white paper*/
   --color-paper: #fafaf8;
@@ -13,7 +14,9 @@
   --color-accent: #b34700;
     /* accent hover */
   --color-accent-hover: #8f3a00;
-  /*  */
+    /* date color */
   --color-date: #8A8A82;
+    /* input box */
+    --color-input: #F5F4F0;
   --font-serif: Georgia, 'Times New Roman', serif;
 }

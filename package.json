@@ -20,5 +20,11 @@
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/typography": "^0.5.20",
     "tailwindcss": "^4.3.3"
+  },
+  "dependencies": {
+    "alpinejs": "^3.15.12"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.1": true
   }
 }

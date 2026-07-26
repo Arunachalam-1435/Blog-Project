@@ -5,22 +5,34 @@
 <p class="error">{{ error }}</p>
 <a href="{{url_for('login')}}">Login Page</a>
 {% else %}
-<div class="h-screen flex items-center justify-center">
-    <!--Login Form-->
-    <div class="bg-blue-300 w-80 p-4 rounded-md hover:shadow-2xl transition duration-350">
-        <div class="text-3xl mb-4 text-center">Login</div>
+<div class="h-screen flex items-center justify-center bg-[#FFFFFF]" x-data="signupform">
+    <div class="border border-border-soft w-80 p-4 rounded-md hover:shadow-2xl transition duration-350">
+        <div class="text-[24px] mb-1 text-ink font-[Georgia]">
+            Welcome back
+        </div>
+        <div class="text-ink-muted text-[13px] font-[Georgia] mb-6">
+            Sign in to manage your posts
+        </div>
         <form action="/login" method="post">
             <div class="mb-4">
-                <label for="username">Email</label>
-                <input type="text" name="username" id="username" class="border rounded-md p-2 w-full">
+                <label for="username" class="text-ink-muted text-[12px] .block mb-1.5">Username</label>
+                <input type="text" name="username" id="username" class="border border-border-soft rounded-md p-2 w-full bg-input">
             </div>
             <div class="mb-4">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="border rounded-md p-2 w-full">
+                <label for="password" class="text-ink-muted text-[12px] .block mb-1.5">Password</label>
+                <div class="relative">
+                    <input name="password" id="password" class="border border-border-soft rounded-md p-2 w-full bg-input" 
+                    :type="showPassword ? 'text' : 'password'" x-model="password">
+                <button type="button" @click="showPassword = !showPassword" 
+                class="absolute right-2 top-1/2 -translate-y-1/2 text-ink-muted text-xs">
+                    <span x-text="showPassword ? 'hide' : 'show'"></span>
+                </button>
+                </div>
             </div>
-            <button class="bg-blue-600 text-white p-2 w-full rounded-md">Login</button>
+        <button type="submit" class="bg-accent text-white p-2 w-full rounded-md">Sign in</button>
         </form>
     </div>
 </div>
+<script src="{{ url_for('static', filename='js/password.js')}}"></script>
 {% endif %}
 {%endblock%}
