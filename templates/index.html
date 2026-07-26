@@ -1,22 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Home Page{% endblock %}
+{% from "partials/card.html" import card %}
+{% block title %}Home{% endblock %}
 {% block content %}
 {% if request.args.get('msg') %}
     <p>{{ request.args.get('msg') }}</p>
 {% endif %}
-<div class="border-b border-ink-muted p-2 m-2">
+<div class="p-2 m-2">
     <h1 class="text-4xl font-serif">My Blog</h1>
     <p class="text-ink-muted font-serif">Thoughts on software, privacy, ideas and more</p>
 </div>
-{% if all_posts %}
-<h3>All Posts:</h3>
-    {% for post in all_posts %}
-        <li>{{ post.id }}.{{ post.title }} - created_at: {{ post.created_at | local_timezone }}</li>
-        <a href="{{url_for('show_post', id=post.id)}}">read</a>
-        <hr>
-    {% endfor %}
-{% else %}
-    <p>No posts available</p>
-{% endif %}
+{% for post in all_posts %}
+    {{ card(post) }}
+{% endfor %}
 <!--script src="/js/script.js"></script-->
 {%endblock%}
