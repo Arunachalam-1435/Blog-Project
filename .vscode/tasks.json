@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Flask App",
+            "type": "shell",
+            "command": "${workspaceFolder}/.env/bin/python3",
+            "args": ["app.py"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher":[],
+            "isBackground": true,
+            "presentation": {
+                "panel": "dedicated",
+                "group": "dev"
+            }
+        },
+        {
+            "label": "Tailwind Watch",
+            "type": "shell",
+            "command": "npx",
+            "args": [
+                "@tailwindcss/cli",
+                "-i", "./static/src/input.css",
+                "-o", "./static/css/output.css",
+                "--watch"
+            ],
+            "problemMatcher":[],
+            "isBackground": true,
+            "presentation": {
+                "panel": "dedicated",
+                "group": "dev"
+            }
+        },
+        {
+            "label": "Run Dev (Flask + Tailwind CSS)",
+            "dependsOn": [
+                "Run Flask App",
+                "Tailwind Watch"
+            ],
+            "dependsOrder": "parallel",
+            "problemMatcher": []
+        }
+    ]
+}

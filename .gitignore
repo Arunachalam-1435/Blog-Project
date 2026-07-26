@@ -1,5 +1,5 @@
 .env/**
 config.env
 **/__pycache__/
-.vscode/**
 node_modules/**
+testing/**

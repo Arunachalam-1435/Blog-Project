@@ -1,2 +1,18 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+@theme {
+    /*white paper*/
+  --color-paper: #fafaf8;
+    /* black ink */
+  --color-ink: #1a1a1a;
+    /* secondary text */
+  --color-ink-muted: #5a5a52;
+    /* warm borders */
+  --color-border-soft: #e5e1d8;
+    /* accent color */
+  --color-accent: #b34700;
+    /* accent hover */
+  --color-accent-hover: #8f3a00;
+  --font-serif: Georgia, 'Times New Roman', serif;
+}

@@ -51,7 +51,7 @@ def markdown_to_html(md):
 @app.route('/')
 def main():
     all_posts = db.session.execute(select(Posts)).scalars().all()
-    return render_template('index.html', heading="Welcome all!", all_posts=all_posts)
+    return render_template('index.html', all_posts=all_posts)
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
