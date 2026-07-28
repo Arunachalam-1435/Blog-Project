@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from datetime import timezone
 from zoneinfo import ZoneInfo
 import os, markdown, textwrap
+import strip_markdown as sm
 
 # initialising necessary components
 load_dotenv('config.env')
@@ -47,6 +48,12 @@ def markdown_to_html(md):
     md_html = textwrap.dedent(md).strip()
     md_html = markdown.markdown(md_html)
     return md_html
+
+# custom filter for markdown stripping
+@app.template_filter('md_strip')
+def md_strip(md):
+    txt = sm.strip_markdown(md)
+    return txt
 
 @app.route('/')
 def main():

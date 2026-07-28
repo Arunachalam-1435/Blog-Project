@@ -5,9 +5,9 @@
 {% if request.args.get('msg') %}
     <p>{{ request.args.get('msg') }}</p>
 {% endif %}
-<div class="p-2 m-2">
-    <h1 class="text-4xl font-serif">My Blog</h1>
-    <p class="text-ink-muted font-serif">Thoughts on software, privacy, ideas and more</p>
+<div class="p-2 m-2 mx-auto max-w-2xl">
+    <h1 class="text-4xl font-serif">Vault 7</h1>
+    <p class="text-ink-muted font-serif">Explore Tech, Culture & Digital Rights with me</p>
 </div>
 {% for post in all_posts %}
     {{ card(post) }}

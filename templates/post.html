@@ -1,10 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Blog{% endblock %}
+{% block title %}{{post_content.title}}{% endblock %}
 {% block content %}
-<h1>{{post_content.title}}</h1>
-<i>created_at: {{post_content.created_at | local_timezone}}</i>
-<br>
-<article class="prose mx-auto max-w-2xl p-8">
-    {{post_content.body | markdown | safe}}
-</article>
+<div class="mx-auto max-w-2xl p-8">
+    <h1 class="text-ink text-5xl font-serif mb-3">{{post_content.title}}</h1>
+    <i class="text-date block mb-4">created_at: {{post_content.created_at | local_timezone}}</i>
+    <br>
+    <article class="prose">
+        {{post_content.body | markdown | safe}}
+    </article>
+</div>
 {% endblock %}
