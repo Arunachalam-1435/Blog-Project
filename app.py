@@ -71,7 +71,7 @@ def post():
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for('main', msg='Post created Successfully'))
-    return render_template('create_post.html', heading='Create a Post')
+    return render_template('create_post.html')
 
 @app.route('/post/<int:id>')
 def show_post(id):
