@@ -2,30 +2,41 @@
 {% block title %}Editor Page{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/easymde.min.css')}}">
-<!-- <form action="/post" method="post">
+<div>
     <label for="topic">Title of the Post:</label>
     <br>
     <input id="topic" name="topic" type="text" required>
     <br>
     <label for="body">Content:</label>
     <br>
-    <textarea name="body" id="body" required></textarea>
-    <br>
-    <input type="submit" value="post">
-</form> -->
-<textarea name="body" id="body" required></textarea>
-<button onclick="submit()">Submit</button>
+</div>
+<div class="flex justify-between">
+    <div class="w-1/2 h-87.5 m-2">
+        <textarea name="body" id="body" required></textarea>
+    </div>
+    <div class="border rounded-sm w-1/2 h-99.5 m-2 overflow-auto">
+        <p>Hello World</p>
+    </div>
+</div>
 <br>
+<button onclick="submitPost()" type="button" class="mt-2">Submit</button>
 <br>
 <script src="{{ url_for('static', filename='js/easymde.min.js')}}"></script>
 <script>
     const easyMDE = new EasyMDE({
         element: document.getElementById("body")
     });
-    function submit(){
+    function submitPost(){
         console.log(easyMDE.value());
+        console.log(document.getElementById('topic').value);
     }
 </script>
+<style>
+    #body + .EasyMDEContainer,
+    #body + .EasyMDEContainer .CodeMirror {
+        height: 100% !important;
+    }
+</style>
 <form action="{{ url_for('logout') }}" method="POST" style="display:inline">
     <button type="submit" class="logout-link">Logout</button>
 </form>
