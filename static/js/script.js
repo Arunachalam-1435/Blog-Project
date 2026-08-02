@@ -10,8 +10,30 @@ const easyMDE = new EasyMDE({
     element: document.getElementById("body")
 });
 
-function submitPost(){
-    console.log("hello world");
+async function submitPost(){
+    var title = document.getElementById("topic").value;
+    var content = easyMDE.value();
+    try{
+        const response = await fetch("/post", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                topic: title,
+                body: content
+            })
+        });
+        
+        if (!response.ok){
+            throw new Error(`Server returnded ${response}`);
+        }
+        const data = await response.json();
+        console.log("Post saved", data);
+    }
+    catch(err){
+        console.error("Failed to send post");
+    }
 }
 
 easyMDE.codemirror.on('change', () => {

@@ -20,3 +20,8 @@
   --color-input: #F5F4F0;
   --font-serif: Georgia, 'Times New Roman', serif;
 }
+
+.prose code::before,
+.prose code::after {
+  content: "" !important;
+}

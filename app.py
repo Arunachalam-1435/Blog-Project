@@ -1,5 +1,5 @@
 # importing libraries
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from werkzeug.security import check_password_hash
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -46,7 +46,10 @@ def local_timezone(dt, tz_name='Asia/Kolkata'):
 @app.template_filter('markdown')
 def markdown_to_html(md):
     md_html = textwrap.dedent(md).strip()
-    md_html = markdown.markdown(md_html)
+    md_html = markdown.markdown(
+        md_html,
+        extensions=['fenced_code', 'tables', 'nl2br', 'codehilite', 'extra', 'sane_lists']
+    )
     return md_html
 
 # custom filter for markdown stripping
@@ -65,12 +68,13 @@ def post():
     # if not session.get('logged_in'):
     #     return redirect(url_for('main'))
     if request.method == "POST":
-        topic = request.form.get('topic')
-        content = request.form.get('body')
+        topic = request.json["topic"]
+        content = request.json["body"]
         new_post = Posts(title = topic, body = content)
         db.session.add(new_post)
         db.session.commit()
-        return redirect(url_for('main', msg='Post created Successfully'))
+        return jsonify({"data": "Post successfully saved"})
+        # return redirect(url_for('main', msg='Post created Successfully'))
     return render_template('create_post.html')
 
 @app.route('/post/<int:id>')

@@ -2,7 +2,7 @@
 {% block title %}Editor Page{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/easymde.min.css')}}">
-<div>
+<div class="m-2">
     <label for="topic" 
     class="text-ink-muted m-4">Title of the Post:</label>
     <br>
@@ -16,8 +16,8 @@
     <div class="w-1/2 h-87.5 m-4">
         <textarea name="body" id="body" required></textarea>
     </div>
-    <div class="prose prose-headings:my-2 prose-p:my-1 prose-li:my-0 prose-ol:my-1 
-        max-w-none border rounded-sm w-1/2 h-99.5 m-4 overflow-auto" id="output">
+    <div class="prose prose-headings:m-2 prose-p:m-2 prose-li:m-2 prose-ol:m-2 
+    prose-hr:my-4 prose-pre:m-2 max-w-none border rounded-sm w-1/2 h-99.5 m-4 overflow-auto" id="output">
     </div>
 </div>
 <script src="{{ url_for('static', filename='js/easymde.min.js')}}"></script>
