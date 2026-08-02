@@ -3,41 +3,36 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/easymde.min.css')}}">
 <div>
-    <label for="topic">Title of the Post:</label>
+    <label for="topic" 
+    class="text-ink-muted m-4">Title of the Post:</label>
     <br>
-    <input id="topic" name="topic" type="text" required>
+    <input id="topic" name="topic" type="text" placeholder="Enter a title"
+    class="border border-border-soft rounded-md p-2 m-4 w-1/4  bg-input" required>
     <br>
-    <label for="body">Content:</label>
+    <label for="body" class="text-ink-muted m-4">Content:</label>
     <br>
 </div>
 <div class="flex justify-between">
-    <div class="w-1/2 h-87.5 m-2">
+    <div class="w-1/2 h-87.5 m-4">
         <textarea name="body" id="body" required></textarea>
     </div>
-    <div class="border rounded-sm w-1/2 h-99.5 m-2 overflow-auto">
-        <p>Hello World</p>
+    <div class="prose prose-headings:my-2 prose-p:my-1 prose-li:my-0 prose-ol:my-1 
+        max-w-none border rounded-sm w-1/2 h-99.5 m-4 overflow-auto" id="output">
     </div>
 </div>
-<br>
-<button onclick="submitPost()" type="button" class="mt-2">Submit</button>
-<br>
 <script src="{{ url_for('static', filename='js/easymde.min.js')}}"></script>
-<script>
-    const easyMDE = new EasyMDE({
-        element: document.getElementById("body")
-    });
-    function submitPost(){
-        console.log(easyMDE.value());
-        console.log(document.getElementById('topic').value);
-    }
-</script>
+<script src="{{ url_for('static', filename='js/marked.umd.js')}}"></script>
+<script src="{{ url_for('static', filename='js/script.js')}}"></script>
+<script></script>
 <style>
     #body + .EasyMDEContainer,
     #body + .EasyMDEContainer .CodeMirror {
         height: 100% !important;
     }
 </style>
-<form action="{{ url_for('logout') }}" method="POST" style="display:inline">
-    <button type="submit" class="logout-link">Logout</button>
-</form>
+<div class="flex flex-1 items-center">
+    <button onclick="submitPost()" type="button" 
+    class="mt-2 bg-accent text-white p-2 m-4 w-1/8 cursor-pointer hover:bg-accent-hover">Submit</button>
+    <a class="text-ink-muted block underline cursor-pointer">Logout</a>
+</div>
 {%endblock%}

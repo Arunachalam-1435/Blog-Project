@@ -62,8 +62,8 @@ def main():
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
-    if not session.get('logged_in'):
-        return redirect(url_for('main'))
+    # if not session.get('logged_in'):
+    #     return redirect(url_for('main'))
     if request.method == "POST":
         topic = request.form.get('topic')
         content = request.form.get('body')

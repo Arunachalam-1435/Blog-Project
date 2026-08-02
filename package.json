@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "alpinejs": "^3.15.12",
-    "easymde": "^2.21.0"
+    "easymde": "^2.21.0",
+    "marked": "^18.0.7"
   },
   "allowScripts": {
     "@parcel/watcher@2.5.1": true
