@@ -24,15 +24,13 @@ async function submitPost(){
                 body: content
             })
         });
-        
-        if (!response.ok){
-            throw new Error(`Server returnded ${response}`);
-        }
         const data = await response.json();
-        console.log("Post saved", data);
+        if (data.redirect_url){
+            window.location.href = data.redirect_url;
+        }
     }
     catch(err){
-        console.error("Failed to send post");
+        console.error("Failed to send post\n", err);
     }
 }
 

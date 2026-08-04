@@ -1,5 +1,5 @@
 # importing libraries
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from werkzeug.security import check_password_hash
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -73,8 +73,11 @@ def post():
         new_post = Posts(title = topic, body = content)
         db.session.add(new_post)
         db.session.commit()
-        return jsonify({"data": "Post successfully saved"})
-        # return redirect(url_for('main', msg='Post created Successfully'))
+        flash("Post created successfully")
+        return jsonify({
+            "data": "Post successfully saved",
+            "redirect_url": url_for('main')
+        })
     return render_template('create_post.html')
 
 @app.route('/post/<int:id>')
