@@ -7,7 +7,11 @@ document.addEventListener('alpine:init', () => {
 });
 
 const easyMDE = new EasyMDE({
-    element: document.getElementById("body")
+    element: document.getElementById("body"),
+    uploadImage: true,
+    imageAccept: "image/png, image/jpeg, image/jpg, image/webp",
+    previewImagesInEditor: true,
+    imageUploadEndpoint: "/file"
 });
 
 async function submitPost(){

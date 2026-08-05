@@ -31,6 +31,7 @@ limiter = Limiter(
     app=app,
     default_limits=[]
 )
+UPLOAD_DIR = "/static/images"
 
 # custom filter for timezone conversion
 @app.template_filter('local_timezone')
@@ -109,6 +110,15 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('main'))
+
+@app.route('/file', methods=['POST'])
+def fileUpload():
+    file = request.files['image']
+    filename = file.filename.strip()
+    save_path = os.path.join(UPLOAD_DIR, filename)
+    file.save(save_path)
+    file_url = f"/{save_path}"
+    return jsonify({"data": {"filePath": file_url}}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
