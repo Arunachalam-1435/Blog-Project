@@ -6,14 +6,6 @@ document.addEventListener('alpine:init', () => {
     );
 });
 
-const easyMDE = new EasyMDE({
-    element: document.getElementById("body"),
-    uploadImage: true,
-    imageAccept: "image/png, image/jpeg, image/jpg, image/webp",
-    previewImagesInEditor: true,
-    imageUploadEndpoint: "/file"
-});
-
 async function submitPost(){
     var title = document.getElementById("topic").value;
     var content = easyMDE.value();
@@ -38,8 +30,8 @@ async function submitPost(){
     }
 }
 
-easyMDE.codemirror.on('change', () => {
-    var md = easyMDE.value();
-    var output = marked.parse(md);
-    document.getElementById('output').innerHTML = output;
-});
+// easyMDE.codemirror.on('change', () => {
+//     var md = easyMDE.value();
+//     var output = marked.parse(md);
+//     document.getElementById('output').innerHTML = output;
+// });
