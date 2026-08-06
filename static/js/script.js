@@ -6,9 +6,14 @@ document.addEventListener('alpine:init', () => {
     );
 });
 
+var editor = document.getElementById("body");
 async function submitPost(){
     var title = document.getElementById("topic").value;
-    var content = easyMDE.value();
+    var content = editor.value;
+    if (title === "" || content === ""){
+        alert("Please fill title of the blog and its content");
+        return;
+    }
     try{
         const response = await fetch("/post", {
             method: "POST",
@@ -30,8 +35,10 @@ async function submitPost(){
     }
 }
 
-// easyMDE.codemirror.on('change', () => {
-//     var md = easyMDE.value();
-//     var output = marked.parse(md);
-//     document.getElementById('output').innerHTML = output;
-// });
+editor.addEventListener("input", function() {
+    var md = editor.value;
+    var html = marked.parse(md);
+    var out = document.getElementById("output");
+    out.innerHTML = html;
+    out.scrollTop = out.scrollHeight;
+});

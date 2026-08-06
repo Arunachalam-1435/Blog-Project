@@ -6,7 +6,8 @@
     <i class="text-date block mb-4">created_at: {{post_content.created_at | local_timezone}}</i>
     <br>
     <article class="prose prose-headings:m-2 prose-p:m-2 prose-li:m-2 prose-ol:m-2 
-    prose-hr:my-4 prose-pre:m-2 no-backticks">
+    prose-hr:my-4 prose-pre:m-2 no-backticks [&_table]:border-collapse [&_th]:border 
+    [&_td]:border [&_th]:border-border-soft [&_td]:border-border-soft [&_td]:p-2 [&_th]:p-2">
         {{post_content.body | markdown | safe}}
     </article>
 </div>
