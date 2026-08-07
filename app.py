@@ -31,7 +31,7 @@ limiter = Limiter(
     app=app,
     default_limits=[]
 )
-UPLOAD_DIR = "/static/images"
+UPLOAD_DIR = "static/images/"
 
 # custom filter for timezone conversion
 @app.template_filter('local_timezone')

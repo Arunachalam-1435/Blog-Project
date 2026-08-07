@@ -6,25 +6,24 @@
     class="text-ink-muted m-4">Title of the Post:</label>
     <br>
     <input id="topic" name="topic" type="text" placeholder="Enter a title"
-    class="border border-border-soft rounded-md p-2 m-4 w-1/4  bg-input" required>
+    class="border border-border-soft rounded-md p-2 m-4 w-1/4  bg-input">
     <br>
     <label for="body" class="text-ink-muted m-4">Content:</label>
     <br>
 </div>
 <div class="flex justify-between">
-    <textarea class="w-1/2 h-99.5 border rounded-sm m-4 p-2 bg-input text-ink" name="body" id="body" required></textarea>
+    <textarea class="w-1/2 h-99.5 border rounded-sm m-4 p-2 bg-input text-ink" name="body" id="body"></textarea>
     <div class="prose prose-headings:m-2 prose-p:m-2 prose-li:m-2 prose-ol:m-2 
     prose-hr:my-4 prose-pre:m-2 [&_table]:border-collapse [&_th]:border 
     [&_td]:border [&_th]:border-border-soft [&_td]:border-border-soft [&_td]:p-2 [&_th]:p-2
     max-w-none border rounded-sm w-1/2 h-99.5 m-4 overflow-auto bg-input text-ink p-2" id="output">
     </div>
 </div>
-<script src="{{ url_for('static', filename='js/marked.umd.js')}}"></script>
-<script src="{{ url_for('static', filename='js/script.js')}}"></script>
-<script></script>
 <div class="flex flex-1 items-center">
-    <button onclick="submitPost()" type="button" 
-    class="mt-2 bg-accent text-white p-2 m-4 w-1/8 cursor-pointer hover:bg-accent-hover">Submit</button>
+    <button class="mt-2 bg-accent text-white p-2 m-4 w-1/8 cursor-pointer 
+    hover:bg-accent-hover" id="submit">Submit</button>
     <a class="text-ink-muted block underline cursor-pointer">Logout</a>
 </div>
+<script src="{{ url_for('static', filename='js/marked.umd.js')}}"></script>
+<script src="{{ url_for('static', filename='js/script.js')}}"></script>
 {%endblock%}

@@ -7,6 +7,12 @@ document.addEventListener('alpine:init', () => {
 });
 
 var editor = document.getElementById("body");
+var submit = document.getElementById("submit");
+
+submit.addEventListener("click", function (){
+    submitPost();
+});
+
 async function submitPost(){
     var title = document.getElementById("topic").value;
     var content = editor.value;
